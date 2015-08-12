@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Database\ConnectionConfigSI.cs" />
     <Compile Include="Models\Scene.cs" />
+    <Compile Include="Models\Score.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserIp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

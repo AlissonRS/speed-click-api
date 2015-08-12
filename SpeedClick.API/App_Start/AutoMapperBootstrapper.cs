@@ -12,8 +12,13 @@ namespace SpeedClick.API
 
         public static void Configure()
         {
+            AutoMapper.Mapper.CreateMap<Score, ScoreModel>();
             AutoMapper.Mapper.CreateMap<User, UserModelPost>();
-            AutoMapper.Mapper.CreateMap<User, UserModelResponse>();
+            AutoMapper.Mapper.CreateMap<User, UserModelResponse>()
+                .ForMember(dest => dest.Ranking, opt => opt.MapFrom(src => src.GetRanking()))
+                .ForMember(dest => dest.Score, opt => opt.MapFrom(src => src.GetScore()))
+                .ForMember(dest => dest.Scores, opt => opt.MapFrom(src => src.GetScores()))
+                ;
         }
 
     }
