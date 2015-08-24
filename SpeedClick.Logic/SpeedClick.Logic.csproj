@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\ConnectionConfigSI.cs" />
+    <Compile Include="Helpers\Types.cs" />
     <Compile Include="Models\Scene.cs" />
     <Compile Include="Models\Score.cs" />
     <Compile Include="Models\User.cs" />
@@ -48,6 +49,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\RegisterUser\RegisterUserCommandData.cs" />
     <Compile Include="Services\RegisterUser\RegisterUserCommandHandler.cs" />
+    <Compile Include="Services\SubmitScore\SubmitScoreCommandData.cs" />
+    <Compile Include="Services\SubmitScore\SubmitScoreCommandHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Alisson.Core\Alisson.Core\Alisson.Core.csproj">

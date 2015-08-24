@@ -12,7 +12,6 @@ namespace SpeedClick.API.Models
         public string Login { get; set; }
         public int Ranking { get; set; }
         public int Score { get; set; }
-        public IEnumerable<ScoreModel> Scores { get; set; }
     }
 
 

@@ -11,11 +11,6 @@ namespace Alisson.Core.Services.Commands.RegisterUser
     public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommandData>
     {
 
-        public RegisterUserCommandHandler()
-        {
-            
-        }
-
         public virtual RegisterUserCommandData Handle(RegisterUserCommandData command)
         {
             BaseRepository<User>.add(command.user);

@@ -25,6 +25,7 @@ namespace SpeedClick.API.Controllers
         {
             this.RegisterUser = registerUser;
         }
+
         public ResponseData<IEnumerable<User>> Get()
         {
             ResponseData<IEnumerable<User>> resp = new ResponseData<IEnumerable<User>>();

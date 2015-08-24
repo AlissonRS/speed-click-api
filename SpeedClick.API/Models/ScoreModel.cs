@@ -7,10 +7,24 @@ namespace SpeedClick.API.Models
 {
     public class ScoreModel
     {
-        public int UserId { get; set; }
-        public int SceneId { get; set; }
-        public int Value { get; set; }
+        public int ID { get; set; }
+        public float Accuracy { get; set; }
         public int MaxCombo { get; set; }
-        public int Errors { get; set; }
+        public int MissCount { get; set; }
+        public int Platform { get; set; }
+        public int Points { get; set; }
+        public int Ranking { get; set; }
+        public int SceneId { get; set; }
+        public float Speed { get; set; }
+        public int TurnCount { get; set; }
+        public UserModelResponse Player { get; set; }
     }
+
+    public class ScoreModelPostResponse
+    {
+        public int ID { get; set; }
+        public bool IsNewRecord { get; set; }
+        public int Ranking { get; set; }
+    }
+
 }

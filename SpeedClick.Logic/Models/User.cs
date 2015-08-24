@@ -34,7 +34,7 @@ namespace SpeedClick.Logic.Models
 
         public void CalculateScore()
         {
-            _score = BaseRepository<Score>.getAll(s => s.UserId == this.ID).Sum<Score>(sc => sc.Value);
+            _score = BaseRepository<Score>.getAll(s => s.PlayerId == this.ID).Sum<Score>(sc => sc.Points);
         }
 
         public int GetRanking()
@@ -46,7 +46,7 @@ namespace SpeedClick.Logic.Models
 
         public IEnumerable<Scene> getScenes()
         {
-            return BaseRepository<Scene>.getAll(s => s.Creator == this.ID);
+            return BaseRepository<Scene>.getAll(s => s.CreatorID == this.ID);
         }
 
         public int GetScore()
@@ -58,7 +58,7 @@ namespace SpeedClick.Logic.Models
 
         public IEnumerable<Score> GetScores()
         {
-            return BaseRepository<Score>.getAll(s => s.UserId == this.ID);
+            return BaseRepository<Score>.getAll(s => s.PlayerId == this.ID);
         }
 
         public override ObjectTypes getObjectType()
