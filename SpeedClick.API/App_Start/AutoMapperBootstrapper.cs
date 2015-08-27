@@ -20,7 +20,10 @@ namespace SpeedClick.API
 
             AutoMapper.Mapper.CreateMap<Score, ScoreModel>()
                 .ForMember(dest => dest.Player, opt => opt.MapFrom(
-                    src => BaseRepository<User>.getByID(src.PlayerId)));
+                    src => BaseRepository<User>.getByID(src.PlayerId)))
+                    .ForMember(dest => dest.Ranking, opt => opt.MapFrom(
+                    src => src.CalculateRanking()
+                    ));
 
             AutoMapper.Mapper.CreateMap<ScoreModel, Score>();
 

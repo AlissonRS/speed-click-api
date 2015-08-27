@@ -40,12 +40,12 @@ namespace SpeedClick.API.Controllers
                 SubmitScoreCommandData data = new SubmitScoreCommandData(sco);
                 submitScore.Handle(data);
                 sco = data.score;
-                ScoreModelPostResponse respScore = new ScoreModelPostResponse() { ID = sco.ID, IsNewRecord = data.IsNewRecord, Ranking = sco.Ranking };
+                ScoreModelPostResponse respScore = new ScoreModelPostResponse() { ID = sco.ID, IsNewRecord = data.IsNewRecord, Ranking = sco.CalculateRanking() };
                 resp.Data = respScore;
                 resp.Message = "Registro efetuado com sucesso!";
                 resp.Success = true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 resp.Message = "Não foi possível submeter a pontuação!";
             }

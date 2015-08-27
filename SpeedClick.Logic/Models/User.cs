@@ -14,23 +14,18 @@ namespace SpeedClick.Logic.Models
     public class User : BaseObject
     {
 
-        private int _ranking = 0;
         private int _score = 0;
 
         public string Login { get; set; }
         [IgnoreDataMember]
         public string Password { get; set; }
         public int Status { get; set; }
+        public string AvatarUrl { get; set; }
 
 
         public User() : base() { }
 
         public User(int id) : base(id) { }
-
-        public void CalculateRanking()
-        {
-            _ranking = BaseRepository<User>.getAll().OrderBy(u => u.GetScore()).ToList().FindIndex(us => us.ID == this.ID);
-        }
 
         public void CalculateScore()
         {
@@ -39,9 +34,7 @@ namespace SpeedClick.Logic.Models
 
         public int GetRanking()
         {
-            if (this._ranking == 0)
-                this.CalculateRanking();
-            return this._ranking;
+            return BaseRepository<User>.getAll().OrderByDescending(u => u.GetScore()).ToList().FindIndex(us => us.ID == this.ID) + 1;
         }
 
         public IEnumerable<Scene> getScenes()
@@ -64,6 +57,11 @@ namespace SpeedClick.Logic.Models
         public override ObjectTypes getObjectType()
         {
             return ObjectTypes.User;
+        }
+
+        public override void Update(ISubject sub)
+        {
+            this.CalculateScore();
         }
 
     }

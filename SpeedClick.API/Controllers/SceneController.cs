@@ -21,6 +21,17 @@ namespace SpeedClick.API.Controllers
             resp.Success = true;
             return resp;
         }
+
+        [Route("api/scene/{ID}/scores/top/{quantity}")]
+        [HttpGet]
+        public ResponseData<IEnumerable<ScoreModel>> GetScores(int ID, int quantity)
+        {
+            ResponseData<IEnumerable<ScoreModel>> resp = new ResponseData<IEnumerable<ScoreModel>>();
+            resp.Data = AutoMapperFacade.Map<IEnumerable<ScoreModel>>(BaseRepository<Score>.getAll().Where(s => s.SceneId == ID).OrderByDescending(o => o.Points).Take(quantity));
+            resp.Message = "";
+            resp.Success = true;
+            return resp;
+        }
   
     }
 }

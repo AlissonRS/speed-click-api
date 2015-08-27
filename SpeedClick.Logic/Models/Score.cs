@@ -15,7 +15,6 @@ namespace SpeedClick.Logic.Models
         public int Platform { get; set; }
         public int PlayerId { get; set; }
         public int Points { get; set; }
-        public int Ranking { get; set; }
         public int SceneId { get; set; }
         public float Speed { get; set; }
         public int TurnCount { get; set; }
@@ -29,11 +28,34 @@ namespace SpeedClick.Logic.Models
             this.Platform = score.Platform;
             this.PlayerId = score.PlayerId;
             this.Points = score.Points;
-            this.Ranking = score.Ranking;
             this.SceneId = score.SceneId;
             this.Speed = score.Speed;
             this.TurnCount = score.TurnCount;
             this.Status = score.Status;
+        }
+
+        protected override void beforeDeleting()
+        {
+            if (this.observers.Count == 0)
+                this.Subscribe(this.GetPlayer());
+            this.Notify();
+        }
+
+        private User GetPlayer()
+        {
+            return BaseRepository<User>.getByID(this.PlayerId);
+        }
+
+        protected override void beforeSaving()
+        {
+            if (this.observers.Count == 0)
+                this.Subscribe(this.GetPlayer());
+            this.Notify();
+        }
+
+        public int CalculateRanking()
+        {
+            return BaseRepository<Score>.getAll().Where(s => s.SceneId == this.SceneId).OrderByDescending(o => o.Points).ThenByDescending(a => a.Accuracy).ToList().FindIndex(i => i.PlayerId == this.PlayerId) + 1;
         }
     }
 }

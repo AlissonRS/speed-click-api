@@ -26,11 +26,9 @@ namespace Alisson.Core.Services.Commands.SubmitScore
             }
             else
                 currentScore = score;
-            int ranking = BaseRepository<Score>.getAll().Where(s => s.SceneId == currentScore.SceneId).OrderBy(o => o.Points).ToList().FindIndex(i => i.PlayerId == currentScore.PlayerId);
-            ranking++;
-            currentScore.Ranking = ranking == 0 ? 1 : ranking;
-            BaseRepository<Score>.add(currentScore);
-            Scene scene = BaseRepository<Scene>.getAll().Where(s => s.ID == currentScore.SceneId).First();
+
+           BaseRepository<Score>.add(currentScore);
+           Scene scene = BaseRepository<Scene>.getAll().First(s => s.ID == currentScore.SceneId);
             scene.PlayCount++;
             BaseRepository<Scene>.add(scene);
             command.score = currentScore;

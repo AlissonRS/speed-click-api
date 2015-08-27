@@ -17,6 +17,7 @@ namespace SpeedClick.API.Models
         public int SceneId { get; set; }
         public float Speed { get; set; }
         public int TurnCount { get; set; }
+        public int PlayerId { get; set; }
         public UserModelResponse Player { get; set; }
     }
 
