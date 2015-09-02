@@ -34,7 +34,9 @@ namespace SpeedClick.Logic.Models
 
         public int GetRanking()
         {
-            return BaseRepository<User>.getAll().OrderByDescending(u => u.GetScore()).ToList().FindIndex(us => us.ID == this.ID) + 1;
+            return BaseRepository<User>.getAll().OrderByDescending(u => u.GetScore())
+                .ThenByDescending(u => u.CreatedAt)
+                .ToList().FindIndex(us => us.ID == this.ID) + 1;
         }
 
         public IEnumerable<Scene> getScenes()

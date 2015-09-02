@@ -6,6 +6,7 @@ using System.Web.Http;
 using Newtonsoft.Json.Serialization;
 using SpeedClick.Logic.Database;
 using System.Net.Http.Headers;
+using System.Web.Http.Cors;
 
 namespace SpeedClick.API
 {
@@ -15,12 +16,16 @@ namespace SpeedClick.API
         {
             // Web API configuration and services
 
+            // Cors
+            var cors = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
+
             // Web API routes
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
 

@@ -55,7 +55,11 @@ namespace SpeedClick.Logic.Models
 
         public int CalculateRanking()
         {
-            return BaseRepository<Score>.getAll().Where(s => s.SceneId == this.SceneId).OrderByDescending(o => o.Points).ThenByDescending(a => a.Accuracy).ToList().FindIndex(i => i.PlayerId == this.PlayerId) + 1;
+            return BaseRepository<Score>.getAll().Where(s => s.SceneId == this.SceneId)
+                .OrderByDescending(s => s.Points)
+                .ThenByDescending(s => s.Accuracy)
+                .ThenByDescending(s => s.CreatedAt)
+                .ToList().FindIndex(s => s.PlayerId == this.PlayerId) + 1;
         }
     }
 }

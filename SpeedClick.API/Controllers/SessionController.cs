@@ -11,7 +11,7 @@ namespace SpeedClick.API.Controllers
     public class SessionController : ApiController
     {
  
-        [Route("api/session/clearall")]
+        [Route("session/clearall")]
         [HttpGet]
         public string ClearAll()
         {

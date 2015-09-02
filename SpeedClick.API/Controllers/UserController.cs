@@ -47,9 +47,10 @@ namespace SpeedClick.API.Controllers
             ResponseData<UserModelResponse> resp = new ResponseData<UserModelResponse>();
             try
             {
+                string encrypted = StringCipher.Encrypt(password, StringCipher.SecretMessage);
                 Dictionary<string, object> p = new Dictionary<string, object>();
                 p.Add("login", login);
-                p.Add("password", password);
+                p.Add("password", encrypted);
                 List<User> users = BaseRepository<User>.getWhere(p);
                 if (users.Count != 1)
                     throw new InvalidOperationException("Login e/ou Senha incorreto(s)!");
@@ -73,7 +74,8 @@ namespace SpeedClick.API.Controllers
                 if (BaseRepository<User>.getAll().Where(u => u.Login == user.Login).Count() > 0)
                     throw new InvalidOperationException("Este login já está sendo utilizado por outro jogador!");
                 string ip = Helpers.GetVisitorIPAddress(HttpContext.Current.Request);
-                RegisterUserCommandData data = new RegisterUserCommandData(user.Login, user.Password, ip);
+                string encrypted = StringCipher.Encrypt(user.Password, StringCipher.SecretMessage);
+                RegisterUserCommandData data = new RegisterUserCommandData(user.Login, encrypted, ip);
                 resp.Data = AutoMapperFacade.Map<UserModelResponse>(this.RegisterUser.Handle(data).user);
                 resp.Message = "Registro efetuado com sucesso!";
                 resp.Success = true;

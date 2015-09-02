@@ -22,7 +22,7 @@ namespace SpeedClick.API.Controllers
             return resp;
         }
 
-        [Route("api/scene/{ID}/scores/top/{quantity}")]
+        [Route("scene/{ID}/scores/top/{quantity}")]
         [HttpGet]
         public ResponseData<IEnumerable<ScoreModel>> GetScores(int ID, int quantity)
         {
