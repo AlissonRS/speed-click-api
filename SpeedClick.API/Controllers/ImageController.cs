@@ -19,7 +19,7 @@ namespace SpeedClick.API.Controllers
         public HttpResponseMessage GetUserAvatar(int id)
         {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            String filePath = HostingEnvironment.MapPath(String.Format("~/Images/users/{0}.png", id));
+            String filePath = String.Format("C:/inetpub/wwwroot/SpeedClick/Images/users/{0}.png", id);
             using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             {
                 Image image = Image.FromStream(fileStream);
@@ -39,7 +39,7 @@ namespace SpeedClick.API.Controllers
         public HttpResponseMessage GetSceneBackground(int id)
         {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            String filePath = HostingEnvironment.MapPath(String.Format("~/Images/scenes/{0}/bg.jpg", id));
+            String filePath = String.Format("C:/inetpub/wwwroot/SpeedClick/Images/scenes/{0}/bg.jpg", id);
             using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             {
                 Image image = Image.FromStream(fileStream);
@@ -59,7 +59,7 @@ namespace SpeedClick.API.Controllers
         public HttpResponseMessage GetSceneBackground(int id, string type, int index)
         {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            String filePath = HostingEnvironment.MapPath(String.Format("~/Images/scenes/{0}/{1}/{2}.png", id, type, index));
+            String filePath = String.Format("C:/inetpub/wwwroot/SpeedClick/Images/scenes/{0}/{1}/{2}.png", id, type, index);
             using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             {
                 Image image = Image.FromStream(fileStream);

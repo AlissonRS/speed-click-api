@@ -15,6 +15,7 @@ namespace SpeedClick.Logic.Models
     {
 
         private int _score = 0;
+        private int _ranking;
 
         public string Login { get; set; }
         [IgnoreDataMember]
@@ -27,6 +28,13 @@ namespace SpeedClick.Logic.Models
 
         public User(int id) : base(id) { }
 
+        public void CalculateRanking()
+        {
+            this._ranking = BaseRepository<User>.getAll().OrderByDescending(u => u.GetScore())
+                .ThenBy(u => u.UpdatedAt)
+                .ToList().FindIndex(us => us.ID == this.ID) + 1;
+        }
+
         public void CalculateScore()
         {
             _score = BaseRepository<Score>.getAll(s => s.PlayerId == this.ID).Sum<Score>(sc => sc.Points);
@@ -34,9 +42,9 @@ namespace SpeedClick.Logic.Models
 
         public int GetRanking()
         {
-            return BaseRepository<User>.getAll().OrderByDescending(u => u.GetScore())
-                .ThenByDescending(u => u.CreatedAt)
-                .ToList().FindIndex(us => us.ID == this.ID) + 1;
+            if (this._ranking == 0)
+                this.CalculateRanking();
+            return this._ranking;
         }
 
         public IEnumerable<Scene> getScenes()

@@ -27,8 +27,14 @@ namespace Alisson.Core.Services.Commands.SubmitScore
             else
                 currentScore = score;
 
-           BaseRepository<Score>.add(currentScore);
-           Scene scene = BaseRepository<Scene>.getAll().First(s => s.ID == currentScore.SceneId);
+            if (command.IsNewRecord)
+            {
+                BaseRepository<Score>.add(currentScore);
+                command.user.CalculateScore();
+                command.user.CalculateRanking();
+                currentScore.CalculateRanking();
+            }
+            Scene scene = BaseRepository<Scene>.getAll().First(s => s.ID == currentScore.SceneId);
             scene.PlayCount++;
             BaseRepository<Scene>.add(scene);
             command.score = currentScore;

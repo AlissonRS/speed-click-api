@@ -238,6 +238,7 @@
     <Content Include="Images\scenes\4\source\8.png" />
     <Content Include="Images\scenes\4\source\9.png" />
     <Content Include="Images\users\67.png" />
+    <Content Include="Images\users\80.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />

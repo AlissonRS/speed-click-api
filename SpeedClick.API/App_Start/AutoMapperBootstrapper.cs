@@ -22,7 +22,7 @@ namespace SpeedClick.API
                 .ForMember(dest => dest.Player, opt => opt.MapFrom(
                     src => BaseRepository<User>.getByID(src.PlayerId)))
                     .ForMember(dest => dest.Ranking, opt => opt.MapFrom(
-                    src => src.CalculateRanking()
+                    src => src.GetRanking()
                     ));
 
             AutoMapper.Mapper.CreateMap<ScoreModel, Score>();

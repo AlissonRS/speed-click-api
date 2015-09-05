@@ -9,6 +9,7 @@ namespace SpeedClick.Logic.Models
 {
     public class Score : BaseObject
     {
+        private int _ranking = 0;
         public float Accuracy { get; set; }
         public int MaxCombo { get; set; }
         public int MissCount { get; set; }
@@ -32,6 +33,7 @@ namespace SpeedClick.Logic.Models
             this.Speed = score.Speed;
             this.TurnCount = score.TurnCount;
             this.Status = score.Status;
+            //this.CreatedAt = DateTime.UtcNow;
         }
 
         protected override void beforeDeleting()
@@ -48,18 +50,27 @@ namespace SpeedClick.Logic.Models
 
         protected override void beforeSaving()
         {
+            base.beforeSaving();
             if (this.observers.Count == 0)
                 this.Subscribe(this.GetPlayer());
             this.Notify();
         }
 
-        public int CalculateRanking()
+        public void CalculateRanking()
         {
-            return BaseRepository<Score>.getAll().Where(s => s.SceneId == this.SceneId)
+            this._ranking = BaseRepository<Score>.getAll().Where(s => s.SceneId == this.SceneId)
                 .OrderByDescending(s => s.Points)
                 .ThenByDescending(s => s.Accuracy)
-                .ThenByDescending(s => s.CreatedAt)
+                .ThenBy(s => s.UpdatedAt)
                 .ToList().FindIndex(s => s.PlayerId == this.PlayerId) + 1;
         }
+
+        public int GetRanking()
+        {
+            if (this._ranking == 0)
+                this.CalculateRanking();
+            return this._ranking;
+        }
+
     }
 }

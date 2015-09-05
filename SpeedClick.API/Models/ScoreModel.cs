@@ -26,6 +26,7 @@ namespace SpeedClick.API.Models
         public int ID { get; set; }
         public bool IsNewRecord { get; set; }
         public int Ranking { get; set; }
+        public UserModelResponse Player { get; set; }
     }
 
 }
