@@ -1,5 +1,6 @@
 ﻿using Alisson.Core;
 using Alisson.Core.Repository;
+using SpeedClick.Logic.Services.RankingCalculator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,11 @@ using System.Text;
 
 namespace SpeedClick.Logic.Models
 {
-    public class Score : BaseObject
+    public class Score : BaseObject, IScoreRankedItem
     {
-        private int _ranking = 0;
-        public float Accuracy { get; set; }
+        private int ranking = 0;
+        private float accuracy = 0;
+
         public int MaxCombo { get; set; }
         public int MissCount { get; set; }
         public int Platform { get; set; }
@@ -19,12 +21,10 @@ namespace SpeedClick.Logic.Models
         public int SceneId { get; set; }
         public float Speed { get; set; }
         public int TurnCount { get; set; }
-        public int Status { get; set; }
 
         public void UpdateFrom(Score score)
         {
             this.Points = score.Points;
-            this.Accuracy = score.Accuracy;
             this.MaxCombo = score.MaxCombo;
             this.Platform = score.Platform;
             this.PlayerId = score.PlayerId;
@@ -32,8 +32,6 @@ namespace SpeedClick.Logic.Models
             this.SceneId = score.SceneId;
             this.Speed = score.Speed;
             this.TurnCount = score.TurnCount;
-            this.Status = score.Status;
-            //this.CreatedAt = DateTime.UtcNow;
         }
 
         protected override void beforeDeleting()
@@ -56,21 +54,40 @@ namespace SpeedClick.Logic.Models
             this.Notify();
         }
 
-        public void CalculateRanking()
+        private void CalculateAccuracy()
         {
-            this._ranking = BaseRepository<Score>.getAll().Where(s => s.SceneId == this.SceneId)
+            this.accuracy = (1f - (Convert.ToSingle(this.MissCount) / Convert.ToSingle(this.TurnCount))) * 100f;
+        }
+
+        public float GetAccuracy()
+        {
+            if (this.accuracy == 0)
+                this.CalculateAccuracy();
+            return this.accuracy;
+        }
+
+        public int GetRankingByScore()
+        {
+            return this.ranking;
+        }
+
+        public int GetScore()
+        {
+            return this.Points;
+        }
+
+        public void SetRankingByScore(int ranking)
+        {
+            this.ranking = ranking;
+        }
+
+
+        public List<IScoreRankedItem> GetOrderedRange()
+        {
+            return BaseRepository<Score>.getAll().Where(s => s.SceneId == this.SceneId)
                 .OrderByDescending(s => s.Points)
-                .ThenByDescending(s => s.Accuracy)
-                .ThenBy(s => s.UpdatedAt)
-                .ToList().FindIndex(s => s.PlayerId == this.PlayerId) + 1;
+                .ThenByDescending(s => s.accuracy)
+                .ThenBy(s => s.UpdatedAt).ToList().ToList<IScoreRankedItem>();
         }
-
-        public int GetRanking()
-        {
-            if (this._ranking == 0)
-                this.CalculateRanking();
-            return this._ranking;
-        }
-
     }
 }

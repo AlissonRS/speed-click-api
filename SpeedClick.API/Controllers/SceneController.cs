@@ -12,8 +12,8 @@ namespace SpeedClick.API.Controllers
 {
     public class SceneController : ApiController
     {
-
-        public ResponseData<IEnumerable<SceneModel>> Get()
+        [HttpGet]
+        public ResponseData<IEnumerable<SceneModel>> Retrieve()
         {
             ResponseData<IEnumerable<SceneModel>> resp = new ResponseData<IEnumerable<SceneModel>>();
             resp.Data = AutoMapperFacade.Map<IEnumerable<SceneModel>>(BaseRepository<Scene>.getAll());
@@ -22,16 +22,5 @@ namespace SpeedClick.API.Controllers
             return resp;
         }
 
-        [Route("scene/{ID}/scores/top/{quantity}")]
-        [HttpGet]
-        public ResponseData<IEnumerable<ScoreModel>> GetScores(int ID, int quantity)
-        {
-            ResponseData<IEnumerable<ScoreModel>> resp = new ResponseData<IEnumerable<ScoreModel>>();
-            resp.Data = AutoMapperFacade.Map<IEnumerable<ScoreModel>>(BaseRepository<Score>.getAll().Where(s => s.SceneId == ID).OrderByDescending(o => o.Points).Take(quantity));
-            resp.Message = "";
-            resp.Success = true;
-            return resp;
-        }
-  
     }
 }

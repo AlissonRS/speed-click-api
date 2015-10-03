@@ -40,7 +40,7 @@ namespace SpeedClick.API.Controllers
                 SubmitScoreCommandData data = new SubmitScoreCommandData(sco);
                 submitScore.Handle(data);
                 sco = data.score;
-                ScoreModelPostResponse respScore = new ScoreModelPostResponse() { ID = sco.ID, IsNewRecord = data.IsNewRecord, Ranking = sco.GetRanking() };
+                ScoreModelPostResponse respScore = new ScoreModelPostResponse() { ID = sco.ID, IsNewRecord = data.IsNewRecord, Ranking = sco.GetRankingByScore() };
                 respScore.Player = AutoMapperFacade.Map<UserModelResponse>(data.user);
                 resp.Data = respScore;
                 resp.Message = "Registro efetuado com sucesso!";

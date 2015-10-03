@@ -7,6 +7,7 @@ using Newtonsoft.Json.Serialization;
 using SpeedClick.Logic.Database;
 using System.Net.Http.Headers;
 using System.Web.Http.Cors;
+using SpeedClick.Logic.Services.RankingCalculator;
 
 namespace SpeedClick.API
 {
@@ -29,9 +30,9 @@ namespace SpeedClick.API
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html") );
+            //config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html") );
 
-            AutoMapperBootstrapper.Configure();
+            AutoMapperBootstrapper.Configure(new ScoreRankingCalculator());
 
             DependencyInjectionAutoStart.Start();
 

@@ -2,6 +2,7 @@
 using Alisson.Core.Repository;
 using Alisson.Core.Types;
 using SpeedClick.Logic.Models;
+using SpeedClick.Logic.Services.RankingCalculator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,8 +32,7 @@ namespace Alisson.Core.Services.Commands.SubmitScore
             {
                 BaseRepository<Score>.add(currentScore);
                 command.user.CalculateScore();
-                command.user.CalculateRanking();
-                currentScore.CalculateRanking();
+                (new ScoreRankingCalculator()).Calculate(command.user).Calculate(currentScore);
             }
             Scene scene = BaseRepository<Scene>.getAll().First(s => s.ID == currentScore.SceneId);
             scene.PlayCount++;

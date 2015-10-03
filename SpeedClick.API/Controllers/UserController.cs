@@ -26,10 +26,10 @@ namespace SpeedClick.API.Controllers
             this.RegisterUser = registerUser;
         }
 
-        public ResponseData<IEnumerable<User>> Get()
+        public ResponseData<IEnumerable<UserModelResponse>> Get()
         {
-            ResponseData<IEnumerable<User>> resp = new ResponseData<IEnumerable<User>>();
-            resp.Data = BaseRepository<User>.getAll();
+            ResponseData<IEnumerable<UserModelResponse>> resp = new ResponseData<IEnumerable<UserModelResponse>>();
+            resp.Data = AutoMapperFacade.Map < IEnumerable < UserModelResponse >>(BaseRepository<User>.getAll());
             resp.Message = "";
             resp.Success = true;
             return resp;

@@ -8,14 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
+using SpeedClick.Logic.Services.RankingCalculator;
 
 namespace SpeedClick.Logic.Models
 {
-    public class User : BaseObject
+    public class User : BaseObject, IScoreRankedItem
     {
 
         private int _score = 0;
-        private int _ranking;
+        private int ranking;
 
         public string Login { get; set; }
         [IgnoreDataMember]
@@ -28,23 +29,14 @@ namespace SpeedClick.Logic.Models
 
         public User(int id) : base(id) { }
 
-        public void CalculateRanking()
-        {
-            this._ranking = BaseRepository<User>.getAll().OrderByDescending(u => u.GetScore())
-                .ThenBy(u => u.UpdatedAt)
-                .ToList().FindIndex(us => us.ID == this.ID) + 1;
-        }
-
         public void CalculateScore()
         {
             _score = BaseRepository<Score>.getAll(s => s.PlayerId == this.ID).Sum<Score>(sc => sc.Points);
         }
 
-        public int GetRanking()
+        public int GetRankingByScore()
         {
-            if (this._ranking == 0)
-                this.CalculateRanking();
-            return this._ranking;
+            return this.ranking;
         }
 
         public IEnumerable<Scene> getScenes()
@@ -69,11 +61,23 @@ namespace SpeedClick.Logic.Models
             return ObjectTypes.User;
         }
 
+        public void SetRankingByScore(int ranking)
+        {
+            this.ranking = ranking;
+        }
+
         public override void Update(ISubject sub)
         {
             this.CalculateScore();
         }
 
+
+        public List<IScoreRankedItem> GetOrderedRange()
+        {
+            List<User> result = BaseRepository<User>.getAll().OrderByDescending(u => u.GetScore())
+                .ThenBy(u => u.CreatedAt).ToList();
+            return result.ToList<IScoreRankedItem>();
+        }
     }
 
 }

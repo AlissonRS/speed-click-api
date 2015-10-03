@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\RankingCalculator\IRankingCalculator.cs" />
+    <Compile Include="Services\RankingCalculator\IScoreRankedItem.cs" />
+    <Compile Include="Services\RankingCalculator\ScoreRankingCalculator.cs" />
     <Compile Include="Database\ConnectionConfigSI.cs" />
     <Compile Include="Helpers\Types.cs" />
     <Compile Include="Models\Scene.cs" />

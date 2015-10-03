@@ -24,7 +24,6 @@ namespace SpeedClick.Logic.Models
         public int PlayCount { get; set; }
 
         public int Status { get; set; }
-        public DateTime CreatedAt { get; set; }
 
         public IEnumerable<Score> GetScores()
         {
