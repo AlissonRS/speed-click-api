@@ -74,9 +74,11 @@ namespace SpeedClick.Logic.Models
 
         public List<IScoreRankedItem> GetOrderedRange()
         {
-            List<User> result = BaseRepository<User>.getAll().OrderByDescending(u => u.GetScore())
-                .ThenBy(u => u.CreatedAt).ToList();
-            return result.ToList<IScoreRankedItem>();
+            List<IScoreRankedItem> r = new List<IScoreRankedItem>();
+            IOrderedEnumerable<User> users = BaseRepository<User>.getAll().OrderByDescending(u => u.GetScore()).ThenBy(u => u.CreatedAt);
+            foreach (User user in users)
+                r.Add(user);
+            return r;
         }
     }
 

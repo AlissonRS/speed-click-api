@@ -23,9 +23,12 @@ namespace SpeedClick.API.Controllers
         {
             ResponseData<IEnumerable<UserModelResponse>> resp = new ResponseData<IEnumerable<UserModelResponse>>();
             IEnumerable<UserModelResponse> users = AutoMapperFacade.Map<IEnumerable<UserModelResponse>>(BaseRepository<User>.getAll().OrderBy(o => scoreCalculator.RetrieveRanking(o)));
+            User tester = BaseRepository<User>.getByID(89);
             resp.Data = (quantity == 0 ? users : users.Take(quantity));
             resp.Message = "";
             resp.Success = true;
+            if (tester.GetRankingByScore() == 0)
+                throw new Exception("");
             return resp;
         }
 

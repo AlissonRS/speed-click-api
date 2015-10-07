@@ -48,13 +48,10 @@ namespace SpeedClick.API.Controllers
             try
             {
                 string encrypted = StringCipher.Encrypt(password, StringCipher.SecretMessage);
-                Dictionary<string, object> p = new Dictionary<string, object>();
-                p.Add("login", login);
-                p.Add("password", encrypted);
-                List<User> users = BaseRepository<User>.getWhere(p);
-                if (users.Count != 1)
+                User users = BaseRepository<User>.getAll().Where(u => u.Login == login && u.Password == encrypted).FirstOrDefault();
+                if (users == null)
                     throw new InvalidOperationException("Login e/ou Senha incorreto(s)!");
-                resp.Data = AutoMapperFacade.Map<UserModelResponse>(users.First());
+                resp.Data = AutoMapperFacade.Map<UserModelResponse>(users);
                 resp.Message = "Login efetuado com sucesso!";
                 resp.Success = true;
             }
